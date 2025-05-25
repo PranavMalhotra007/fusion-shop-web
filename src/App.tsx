@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +15,8 @@ import CartPage from "@/pages/Cart";
 import ProductPage from "@/pages/Product";
 import { PRODUCTS } from "@/pages/productsData";
 import NotFound from "@/pages/NotFound";
+import NewArrivalsPage from "@/pages/NewArrivals";
+import SalePage from "@/pages/Sale";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,8 @@ function AppRoutes() {
       <CartDrawer open={cartOpen} setOpen={setCartOpen} cart={cart} handleRemove={handleRemove} total={total} />
       <Routes>
         <Route path="/" element={<Home handleAddToCart={handleAddToCart} />} />
+        <Route path="/new-arrivals" element={<NewArrivalsPage handleAddToCart={handleAddToCart} />} />
+        <Route path="/sale" element={<SalePage handleAddToCart={handleAddToCart} />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
