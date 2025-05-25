@@ -1,9 +1,10 @@
-
 import { Link } from "react-router-dom";
+import QuantitySelector from "@/components/QuantitySelector";
 
-export default function CartPage({ cart, handleRemove, total }: {
+export default function CartPage({ cart, handleRemove, handleUpdateQty, total }: {
   cart: any[];
   handleRemove: (id: number) => void;
+  handleUpdateQty: (id: number, qty: number) => void;
   total: number;
 }) {
   return (
@@ -27,7 +28,14 @@ export default function CartPage({ cart, handleRemove, total }: {
                 <img src={item.image} alt={item.title} className="w-16 h-16 rounded object-cover mr-4" />
                 <div className="flex-1">
                   <p className="font-medium">{item.title}</p>
-                  <p className="text-primary">${item.price}</p>
+                  <div className="flex gap-2 items-center">
+                    <span className="text-primary">${item.price}</span>
+                    <QuantitySelector
+                      value={item.quantity}
+                      onChange={qty => handleUpdateQty(item.id, qty)}
+                      min={1}
+                    />
+                  </div>
                 </div>
                 <button
                   className="bg-rose-100 px-3 py-1 rounded text-rose-600 hover:bg-rose-200 text-xs"

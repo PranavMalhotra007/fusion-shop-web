@@ -24,12 +24,17 @@ function AppRoutes() {
   const [cart, setCart] = useState<any[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
 
-  function handleAddToCart(product: any) {
-    setCart(old =>
-      old.find((item) => item.id === product.id)
-        ? old
-        : [...old, product]
-    );
+  function handleAddToCart(product: any, qty: number = 1) {
+    setCart(old => {
+      const existing = old.find((item) => item.id === product.id);
+      if (existing)
+        return old.map(item =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + qty }
+            : item
+        );
+      return [...old, { ...product, quantity: qty }];
+    });
     setCartOpen(true);
   }
 
@@ -37,10 +42,20 @@ function AppRoutes() {
     setCart(old => old.filter((item) => item.id !== id));
   }
 
-  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  function handleUpdateQty(id: number, qty: number) {
+    setCart(old =>
+      old.map((item) =>
+        item.id === id ? { ...item, quantity: qty } : item
+      )
+    );
+  }
+
+  const total = cart.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
 
   // Count for navbar
-  function getCartCount() { return cart.length; }
+  function getCartCount() {
+    return cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  }
 
   return (
     <>
@@ -51,7 +66,7 @@ function AppRoutes() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/cart" element={<CartPage cart={cart} handleRemove={handleRemove} total={total} />} />
+        <Route path="/cart" element={<CartPage cart={cart} handleRemove={handleRemove} handleUpdateQty={handleUpdateQty} total={total} />} />
         <Route path="/product/:id" element={<ProductPage handleAddToCart={handleAddToCart} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
