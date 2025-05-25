@@ -18,24 +18,30 @@ export default function SalePage({ handleAddToCart }: { handleAddToCart: (prod: 
   }
 
   return (
-    <main className="max-w-2xl mx-auto p-8 font-sans">
-      <h1 className="text-3xl font-bold mb-6 text-primary">On Sale</h1>
-      <ul className="flex flex-col gap-8">
+    <main className="max-w-2xl mx-auto p-6 font-sans">
+      <h1 className="text-3xl font-bold mb-4 text-primary text-left">On Sale</h1>
+      <ul className="flex flex-col items-start gap-4 w-full">
         {saleProducts.map(product => (
-          <li key={product.id} className="flex items-center gap-6 p-5 border rounded-xl bg-white shadow hover:shadow-md transition">
+          <li
+            key={product.id}
+            className="flex w-full items-center gap-4 p-3 border rounded-lg bg-white shadow-sm hover:shadow-md transition"
+          >
             <img
               src={product.image}
               alt={product.title}
-              className="w-28 h-28 rounded object-cover cursor-pointer"
+              className="w-24 h-24 rounded object-cover cursor-pointer flex-shrink-0"
               onClick={() => navigate(`/product/${product.id}`)}
             />
-            <div className="flex-1">
-              <h2 className="font-bold text-xl text-rose-600 cursor-pointer hover:underline" onClick={() => navigate(`/product/${product.id}`)}>
+            <div className="flex-1 min-w-0">
+              <h2
+                className="font-bold text-lg text-rose-600 cursor-pointer hover:underline"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
                 {product.title}
               </h2>
-              <p className="mb-2 text-gray-500">${product.price}</p>
-              <div className="flex items-center gap-3 my-1">
-                <span className="text-base font-medium">Qty:</span>
+              <p className="mb-1 text-gray-500 text-sm truncate">${product.price}</p>
+              <div className="flex items-center gap-2 mt-2">
+                <span className="text-sm font-medium">Qty:</span>
                 <QuantitySelector
                   value={quantities[product.id]}
                   onChange={val => handleQtyChange(product.id, val)}
@@ -44,7 +50,7 @@ export default function SalePage({ handleAddToCart }: { handleAddToCart: (prod: 
                 />
                 <button
                   onClick={() => handleAddToCart(product, quantities[product.id])}
-                  className="ml-4 bg-primary text-white px-6 py-2 rounded font-bold hover:bg-primary/90 transition"
+                  className="ml-2 bg-primary text-white px-4 py-1.5 rounded font-bold hover:bg-primary/90 transition text-sm"
                 >
                   Add to Cart
                 </button>
